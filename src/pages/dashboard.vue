@@ -1,9 +1,7 @@
 <template>
   <div id="nihao">
-<!--    <div>{{message}}</div>-->
-<!--    <div>{{count}}</div>-->
-<!--    <user-index></user-index>-->
-    <product></product>
+    <div v-if="mallList.length>0" v-for="mall in mallList" :key="mall.mall_uid">{{ mall.show_name }}</div>
+    <div v-else>暂无商场</div>
   </div>
 </template>
 
@@ -24,27 +22,14 @@ Vue.use(VueResource)
 const store = new Vuex.Store({
   modules: { productModules }
 })
-// state: {
-//   count: 0,
-//   products: [{product_name: '商品1'}, {product_name: '商品2'}]
-// },
-// mutations: {
-//   increment (state) {
-//     state.count++
-//   }
-// },
-// getters: {
-//   productLength: (store) => {
-//     return store.products.length
-//   }
-// }
 export default {
   name: 'dashboard',
   store,
   components: { UserIndex, Product },
   data () {
     return {
-      message: 'haha'
+      message: 'haha',
+      mallList: []
     }
   },
   computed: {
@@ -54,36 +39,20 @@ export default {
   },
   methods: {
   },
-  beforeCreate () {
-
-  },
-  created () {
-  },
-  beforeMount () {
-
-  },
   mounted () {
     HTTP.post(`${this.HOST}/mall/list`, {
       group_uid: '43207696968687482'
     })
       .then((res) => {
-        console.log('成功回调：', res)
+        if (res.code !== 200) {
+          alert('获取商场列表失败')
+          return false
+        }
+        this.mallList = res.data
       })
       .catch((err) => {
-        console.log('成功回调：', err)
+        console.log('失败回调：', err)
       })
-  },
-  beforeUpdate () {
-
-  },
-  updated () {
-
-  },
-  beforeDestroy () {
-
-  },
-  destroyed () {
-
   }
 }
 </script>

@@ -13,7 +13,8 @@ module.exports = {
     proxyTable: {
       '/api' :{
         target:'http://10.16.1.140:8666/',
-        changeOrigin: true,
+        secure: false, // 如果是https接口，需要配置这个参数为true
+        changeOrigin: true,// 如果接口跨域，需要进行这个参数配置为true
         pathRewrite: {
           '^/api': ''
         }
