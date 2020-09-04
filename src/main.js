@@ -3,9 +3,13 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import axios from 'axios'
+import 'lib-flexible/flexible'
 
+Vue.prototype.$axios = axios
+// axios.defaults.baseURL = '/api'
+axios.defaults.withCredentials = true
 Vue.config.productionTip = false
-Vue.prototype.HOST = '/api'
 
 /* eslint-disable no-new */
 new Vue({
